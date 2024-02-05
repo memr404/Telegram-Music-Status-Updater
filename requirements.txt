@@ -1,0 +1,4 @@
+pytube==15.0.0
+comtypes==1.2.1
+pycaw==20230407
+telethon==1.33.1
