@@ -17,7 +17,7 @@ except json.decoder.JSONDecodeError:
 	exit()
 
 
-client = TelegramClient('session_name', api_id, api_hash)
+client = TelegramClient('session_name', api_id, api_hash, system_version="4.16.30-vxCUSTOM")
 
 async def main():
 	try:
@@ -37,7 +37,7 @@ async def main():
 			if url and old_url != str(url):
 				rez = music.get_name(url)
 				if rez:
-					rez = '🤖Скрипт показывает какую музыку я сейчас слушаю! 🎵Сейчас слушаю: ' + rez
+					rez = '🎵Сейчас слушаю: ' + rez
 					if old_rez != rez:
 						await client(UpdateProfileRequest(about=rez))
 						print('change')
