@@ -11,9 +11,11 @@ try:
 		api_id, api_hash = conf[0], conf[1]
 except FileNotFoundError:
 	print('Файл конфига (config.json) не найден!')
+	input('Нажмите enter чтобы выйти...')
 	exit()
 except json.decoder.JSONDecodeError:
 	print('Заполните config.json в формате ["api_id", "api_hash"]')
+	input('Нажмите enter чтобы выйти...')
 	exit()
 
 
@@ -22,6 +24,10 @@ client = TelegramClient('session_name', api_id, api_hash, system_version="4.16.3
 async def main():
 	try:
 		await client.start()
+		if (await client.get_me()).to_dict()['premium']:
+			limit = 140
+		else:
+			limit = 70
 	except:
 		print('Указанны неправильные токены!')
 		exit()
@@ -39,8 +45,8 @@ async def main():
 				if rez:
 					rez = '🎵Сейчас слушаю: ' + rez
 					if old_rez != rez:
-						await client(UpdateProfileRequest(about=rez))
-						print('change')
+						await client(UpdateProfileRequest(about=rez[:limit]))
+						print(rez)
 						change = True
 						old_rez = rez
 				else:
@@ -53,4 +59,8 @@ async def main():
 	except KeyboardInterrupt:
 		await client(UpdateProfileRequest(about=default))
 		await client.disconnect()
+	except:
+		print('Неизвестная ошибка')
+		input('Нажмите enter чтобы выйти...')
+		exit(1)
 client.loop.run_until_complete(main())

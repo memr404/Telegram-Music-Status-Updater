@@ -17,7 +17,7 @@ def get_url():
 		shutil.copyfile(path, temp)
 		conn = sqlite3.connect(temp)
 		cursor = conn.cursor()
-		cursor.execute("SELECT url FROM urls ORDER BY last_visit_time DESC LIMIT 10")
+		cursor.execute("SELECT url FROM urls ORDER BY last_visit_time DESC LIMIT 45")
 		for url in cursor.fetchall():
 			if 'https://music.youtube.com/watch?' in url[0]:
 				c_url = url[0]
@@ -32,7 +32,7 @@ def get_name(c_url):
 	if playing():
 		video = YouTube(c_url)
 		rez = video.title + ' / ' + video.author
-		return rez[:45]
+		return rez
 	else:
 		return False
 
